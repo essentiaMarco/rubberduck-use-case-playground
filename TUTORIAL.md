@@ -1,34 +1,32 @@
-# Tutorial — UC-09: Compare Versions
+# Tutorial — UC-10: Quick Check
 
-> Branch `uc-09-compare-versions` — public playground for [RubberDuck](https://rubberduck.com) workflows.
+> Branch `uc-10-quick-check` — public playground for [RubberDuck](https://rubberduck.com) workflows.
 
 ## When to use
 
-Compare implementations across classes or versions for compatibility risks.
+30-second assessment of an unfamiliar method — what it does, who depends on it, risk.
 
 ## Setup
 
 1. Complete [SETUP.md](../SETUP.md) (MCP token + index this repo).
-2. **Focus files:** `demoapp/builders/html.py` — HTML vs Epub3 `prepare_writing`
+2. **Focus files:** `demoapp/builders/html.py` — `render_partial`
 3. Optional upstream repo: see [docs/recommended-repos.md](docs/recommended-repos.md)
 
 ## Prompt
 
 ```
-Compare prepare_writing between StandaloneHTMLBuilder and Epub3Builder in demoapp/builders/html.py.
+Never seen this code before. Give a 30-second assessment of render_partial in demoapp/builders/html.py:
 
-Using RubberDuck:
-1. read_source both methods
-2. compare_snapshots or analyze_code for structural diff
-3. search_code for all prepare_writing implementations
-4. shared_variables and call_chain on both
+1. read_source(function_name="render_partial")
+2. call_chain(method="render_partial") — callers and callees
+3. search_code(pattern="render_partial")
 
-Report what Epub3 adds, shared state, and compatibility risks.
+Report: what it does, who depends on it, risk level, with file:line evidence.
 ```
 
 ## Expected RubberDuck tool flow
 
-`load_repo → read_source → compare_snapshots → search_code → call_chain`
+`load_repo → read_source → call_chain → search_code`
 
 ## Success criteria
 
@@ -38,4 +36,4 @@ Report what Epub3 adds, shared state, and compatibility risks.
 
 ## More detail
 
-See [docs/uc-09.md](docs/uc-09.md)
+See [docs/uc-10.md](docs/uc-10.md)
