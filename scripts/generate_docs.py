@@ -262,7 +262,13 @@ def create_branches() -> None:
             cwd=ROOT,
             check=True,
         )
-    subprocess.run(["git", "checkout", "main"], cwd=ROOT, check=True)
+    default = subprocess.check_output(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=ROOT, text=True
+    ).strip()
+    base = "main" if "main" in subprocess.check_output(
+        ["git", "branch", "--list", "main"], cwd=ROOT, text=True
+    ) else "master"
+    subprocess.run(["git", "checkout", base], cwd=ROOT, check=True)
     # main branch: no per-UC TUTORIAL
     tutorial = ROOT / "TUTORIAL.md"
     if tutorial.exists():
