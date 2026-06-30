@@ -1,76 +1,90 @@
 # RubberDuck Use Case Playground
 
-Public tutorial repo for all **10 RubberDuck product use cases** plus **codegen** (UC-07), matching the official docs at [rubberduck.com/#docs](https://rubberduck.com/#docs).
+**Runnable training labs** for all 10 RubberDuck workflows (+ codegen on UC-07).  
+Not just docs — each use case has **code you can run**, **verify scripts**, and **copy-paste RubberDuck prompts**.
 
-One repository. **One branch per use case.** Copy-paste prompts. Small sample codebase included so you do not need to pick a random GitHub project.
+Official reference: [rubberduck.com/#docs](https://rubberduck.com/#docs)
 
-## Quick start
-
-1. [Set up RubberDuck MCP](SETUP.md) (token + Cursor config).
-2. Index this repo (GitHub or local path).
-3. Check out a use-case branch and open **`TUTORIAL.md`**.
-4. Paste the prompt into your AI assistant with RubberDuck connected.
+## 3-click quick start
 
 ```bash
 git clone https://github.com/oussama-rubberduck/rubberduck-use-case-playground.git
 cd rubberduck-use-case-playground
-git checkout uc-01-understand-your-code
+python scripts/run-lab.py --uc 02 --verify
 ```
 
-## Branches (10 use cases + codegen)
+Windows:
 
-| Branch | UC | Title |
-|--------|-----|--------|
-| `uc-01-understand-your-code` | UC-01 | Understand Your Code |
-| `uc-02-codebase-audit` | UC-02 | Codebase Audit |
-| `uc-03-localize-and-fix-bugs` | UC-03 | Localize and Fix Bugs |
-| `uc-04-code-review` | UC-04 | Code Review |
-| `uc-05-change-impact-analysis` | UC-05 | Change Impact Analysis |
-| `uc-06-plan-new-feature` | UC-06 | Plan a New Feature |
-| `uc-07-generate-code` | UC-07 | **Generate Code That Fits (codegen)** |
-| `uc-08-check-code-logic` | UC-08 | Check Code Logic |
-| `uc-09-compare-versions` | UC-09 | Compare Versions |
-| `uc-10-quick-check` | UC-10 | Quick Check |
+```powershell
+.\scripts\setup.ps1 -Uc 02 -Verify
+```
 
-`main` holds the full index (this file) and shared sample code.
+This will:
 
-## What's in the repo
+1. Create `.venv` and install dependencies (first run only)
+2. Run the lab smoke test for that UC
+3. Print the RubberDuck **index** command + **prompt** to paste in your IDE
 
-| Path | Purpose |
-|------|---------|
-| `demoapp/` | Small Python sample (builder + config + ORM-style bugs) |
-| `docs/uc-01.md` … `uc-10.md` | Per-UC prompts and workflow hints |
-| `docs/recommended-repos.md` | Optional Sphinx/Django targets from official docs |
-| `fixtures/` | PR snippets and exercise inputs |
-| `tests/` | Baseline tests for UC-06 / UC-07 |
-| `TUTORIAL.md` | **On each UC branch** — start here |
-
-## Sample code map
-
-| UC | Start here in `demoapp/` |
-|----|--------------------------|
-| UC-01 | `cmd/build.py`, `application.py` |
-| UC-02 | `config.py` |
-| UC-03 | `db/query.py` |
-| UC-04 | `db/query.py` + `fixtures/uc-04-pr-order-by-diff.md` |
-| UC-05 | `config.py` (`config_values`) |
-| UC-06 | `builders/html.py` |
-| UC-07 | `ext/github.py` (add `gitlab.py`) |
-| UC-08 | `builders/html.py` (`get_outdated_docs`) |
-| UC-09 | `builders/html.py` (HTML vs Epub3) |
-| UC-10 | `builders/html.py` (`render_partial`) |
-
-## Run tests
+### Start the live API lab (UC-02)
 
 ```bash
-python -m pip install pytest
-python -m pytest tests/ -q
+python scripts/run-lab.py --uc 02 --start-server
 ```
 
-## Official documentation
+Open http://127.0.0.1:8080/docs — then run RubberDuck security audit on the code.
 
-Prompts and with/without MCP comparisons are maintained on [rubberduck.com](https://rubberduck.com/#docs). This repo is the **hands-on lab** PiGrieco asked for in the 29 Jun 2026 standup.
+## What is in this repo
+
+| Layer | What you get |
+|-------|----------------|
+| **`labs/uc01` … `uc10`** | Per-UC project folder: README, verify script, tasks/tests |
+| **`demoapp/`** | Shared Python codebase (~800 lines): CLI, builders, ORM bugs, HTTP API |
+| **`demoapp/api/server.py`** | Runnable FastAPI for security/runtime exercises |
+| **`scripts/run-lab.py`** | One command to setup + verify + print prompts |
+| **`docs/uc-*.md`** | Official prompts (same as rubberduck.com) |
+| **`git branches`** | `uc-01-understand-your-code` … `uc-10-quick-check` with `TUTORIAL.md` |
+
+## Labs at a glance
+
+| UC | Lab folder | Runnable? | What you do |
+|----|------------|-----------|-------------|
+| 01 | `labs/uc01_understand` | verify script | Trace entry points in `demoapp` |
+| 02 | `labs/uc02_security_lab` | **API on :8080** | Audit live HTTP + `config.py` sinks |
+| 03 | `labs/uc03_buggy_orm` | **pytest** | Find/fix aggregation bugs |
+| 04 | `labs/uc04_pr_review` | verify + PR fixture | BLOCK/APPROVE fake PR |
+| 05 | `labs/uc05_impact` | verify | Plan rename `config_values` |
+| 06 | `labs/uc06_feature` | **failing tests** | Plan `--parallel-write` feature |
+| 07 | `labs/uc07_codegen` | **failing tests** | Implement `gitlab.py` role |
+| 08 | `labs/uc08_logic` | verify | Review `get_outdated_docs` logic |
+| 09 | `labs/uc09_compare` | verify | Compare HTML vs Epub3 builders |
+| 10 | `labs/uc10_quick` | verify | 30s assessment of `render_partial` |
+
+## Full workflow (train yourself)
+
+1. **Setup RubberDuck MCP** — see [SETUP.md](SETUP.md)
+2. **Pick a UC:** `python scripts/run-lab.py --uc 03`
+3. **Run the lab locally:** add `--verify` or follow `labs/uc03_buggy_orm/README.md`
+4. **Index repo** in RubberDuck (command printed by run-lab)
+5. **Paste prompt** from output into your IDE
+6. **Compare** RubberDuck evidence vs what you saw running the lab
+
+## Branches
+
+Each `uc-*` branch adds a focused `TUTORIAL.md`. Code lives on `main` (all labs together).
+
+```bash
+git checkout uc-07-generate-code
+```
+
+## Tests
+
+```bash
+pip install -r requirements.txt
+pytest tests labs -q
+```
+
+Some UC-06/07 tests **fail on purpose** until you implement the task (training).
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT

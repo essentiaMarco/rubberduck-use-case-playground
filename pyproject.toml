@@ -1,0 +1,22 @@
+[project]
+name = "rubberduck-use-case-playground"
+version = "0.2.0"
+description = "Runnable labs for RubberDuck UC-01 through UC-10"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "fastapi>=0.110",
+  "uvicorn[standard]>=0.27",
+  "httpx>=0.27",
+  "pytest>=8.0",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["demoapp*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "labs"]
