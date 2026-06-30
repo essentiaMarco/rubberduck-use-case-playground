@@ -1,32 +1,39 @@
-# Tutorial — UC-01: Understand Your Code
+# Tutorial — UC-02: Codebase Audit
 
-> Branch `uc-01-understand-your-code` — public playground for [RubberDuck](https://rubberduck.com) workflows.
+> Branch `uc-02-codebase-audit` — public playground for [RubberDuck](https://rubberduck.com) workflows.
 
 ## When to use
 
-You're new to a codebase, or need to understand how a specific feature works.
+You want to check for security vulnerabilities or quality issues in your code.
 
 ## Setup
 
 1. Complete [SETUP.md](../SETUP.md) (MCP token + index this repo).
-2. **Focus files:** `demoapp/cmd/build.py` (main), `demoapp/application.py` (Application)
+2. **Focus files:** `demoapp/config.py` — `eval_config_file`, `from_pickle`
 3. Optional upstream repo: see [docs/recommended-repos.md](docs/recommended-repos.md)
 
 ## Prompt
 
 ```
-Using the RubberDuck semantic intelligence tools, give me a complete overview of this codebase.
-Show me:
-1. All major classes and functions (use symbols_overview)
-2. The main entry points
-3. How the request/data flows through the system (use call_chain on the main entry points)
+Using RubberDuck semantic intelligence tools, perform a security-sensitive path audit on my loaded code:
 
-Base your answer ONLY on the analysis tools, not on general knowledge.
+1. First, find all entry points that accept external input (use search_code to find HTTP handlers, API endpoints, form handlers, user input processing)
+2. For each entry point, trace the data flow of the input variable (use trace_variable)
+3. Search for dangerous sinks: exec, eval, subprocess, SQL queries, file operations, shell commands (use search_code with regex patterns)
+4. For any dangerous sink found, check if user input can reach it (use call_chain to trace the path from entry to sink)
+
+Focus ONLY on the loaded code scope. If no dangerous path is found in the loaded files, say so honestly — do not speculate about code outside the loaded scope.
+
+Report findings as:
+- Entry point (file, line)
+- Data flow path
+- Sink (file, line, type of danger)
+- Risk level (high/medium/low)
 ```
 
 ## Expected RubberDuck tool flow
 
-`list_repos → load_repo → search_code → load_code → symbols_overview → call_chain → trace_variable`
+`codebase_audit → load_repo → search_code → read_source → trace_variable → call_chain`
 
 ## Success criteria
 
@@ -36,4 +43,4 @@ Base your answer ONLY on the analysis tools, not on general knowledge.
 
 ## More detail
 
-See [docs/uc-01.md](docs/uc-01.md)
+See [docs/uc-02.md](docs/uc-02.md)
