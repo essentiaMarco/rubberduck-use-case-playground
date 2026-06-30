@@ -1,39 +1,43 @@
-# Tutorial — UC-05: Change Impact Analysis
+# Tutorial — UC-06: Plan a New Feature
 
-> Branch `uc-05-change-impact-analysis` — public playground for [RubberDuck](https://rubberduck.com) workflows.
+> Branch `uc-06-plan-new-feature` — public playground for [RubberDuck](https://rubberduck.com) workflows.
 
 ## When to use
 
-Before making a change, you need to know what will break and what tests to run.
+You want to add a new feature, preferably tests-first.
 
 ## Setup
 
 1. Complete [SETUP.md](../SETUP.md) (MCP token + index this repo).
-2. **Focus files:** `demoapp/config.py` — rename `config_values`
+2. **Focus files:** `demoapp/builders/html.py` — `write_doc`, parallel patterns
 3. Optional upstream repo: see [docs/recommended-repos.md](docs/recommended-repos.md)
 
 ## Prompt
 
 ```
-I want to rename Config.config_values to Config.values in demoapp/config.py.
+I want to add a --parallel-write flag for parallel file writing in demoapp builders.
 
-Using RubberDuck, analyze the impact:
-1. Use plan_change with description of what I want to change
-2. Find all callers (use call_chain direction="callers")
-3. Find downstream functions (use call_chain direction="callees")
-4. Check shared variables (use shared_variables)
-5. Trace key variables (use trace_variable)
+Using RubberDuck, help me plan tests-first:
 
-Report:
-- Risk level with reasoning
-- Affected functions (file, line, dependency type)
-- Recommended change order
-- What tests to run
+Step 1 — Understand existing patterns:
+1. Search for similar functionality (use search_code, analyze_code)
+2. Find test directory and patterns
+3. Identify where this feature belongs (use symbols_overview)
+
+Step 2 — Design tests first:
+Write test cases BEFORE implementation, following existing conventions.
+
+Step 3 — Implementation plan:
+- Which files to modify
+- What new code to add
+- What NOT to add (keep minimal)
+
+Do NOT generate implementation code yet — only tests and plan.
 ```
 
 ## Expected RubberDuck tool flow
 
-`plan_change → search_code → call_chain → shared_variables → trace_variable`
+`search_code → symbols_overview → read_source → call_chain → analyze_code`
 
 ## Success criteria
 
@@ -43,4 +47,4 @@ Report:
 
 ## More detail
 
-See [docs/uc-05.md](docs/uc-05.md)
+See [docs/uc-06.md](docs/uc-06.md)
