@@ -39,7 +39,7 @@ Respond only with "healthy" or "unhealthy."
 **GitHub (recommended for team demos):**
 
 ```
-Index my GitHub repo: https://github.com/RubberDuck-com/rubberduck-use-case-playground
+Index my GitHub repo: https://github.com/oussama-rubberduck/rubberduck-use-case-playground
 ```
 
 **Local project:**

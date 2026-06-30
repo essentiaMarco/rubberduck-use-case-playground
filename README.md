@@ -12,7 +12,7 @@ One repository. **One branch per use case.** Copy-paste prompts. Small sample co
 4. Paste the prompt into your AI assistant with RubberDuck connected.
 
 ```bash
-git clone https://github.com/RubberDuck-com/rubberduck-use-case-playground.git
+git clone https://github.com/oussama-rubberduck/rubberduck-use-case-playground.git
 cd rubberduck-use-case-playground
 git checkout uc-01-understand-your-code
 ```
