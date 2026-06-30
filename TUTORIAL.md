@@ -1,34 +1,34 @@
-# Tutorial — UC-08: Check Code Logic
+# Tutorial — UC-09: Compare Versions
 
-> Branch `uc-08-check-code-logic` — public playground for [RubberDuck](https://rubberduck.com) workflows.
+> Branch `uc-09-compare-versions` — public playground for [RubberDuck](https://rubberduck.com) workflows.
 
 ## When to use
 
-Verify correctness of complex logic — conditions, gaps, control flow.
+Compare implementations across classes or versions for compatibility risks.
 
 ## Setup
 
 1. Complete [SETUP.md](../SETUP.md) (MCP token + index this repo).
-2. **Focus files:** `demoapp/builders/html.py` — `get_outdated_docs`
+2. **Focus files:** `demoapp/builders/html.py` — HTML vs Epub3 `prepare_writing`
 3. Optional upstream repo: see [docs/recommended-repos.md](docs/recommended-repos.md)
 
 ## Prompt
 
 ```
-Verify demoapp/builders/html.py StandaloneHTMLBuilder.get_outdated_docs():
+Compare prepare_writing between StandaloneHTMLBuilder and Epub3Builder in demoapp/builders/html.py.
 
-1. read_source on get_outdated_docs
-2. trace_variable on template_mtime, build_info, buildinfo
-3. call_chain on get_outdated_docs
-4. control_guards on each branch condition line
-5. search_code for other builders' get_outdated_docs implementations
+Using RubberDuck:
+1. read_source both methods
+2. compare_snapshots or analyze_code for structural diff
+3. search_code for all prepare_writing implementations
+4. shared_variables and call_chain on both
 
-Report all branches, gaps (static/theme/css/extension changes), with formal evidence.
+Report what Epub3 adds, shared state, and compatibility risks.
 ```
 
 ## Expected RubberDuck tool flow
 
-`load_repo → read_source → trace_variable → call_chain → control_guards → search_code`
+`load_repo → read_source → compare_snapshots → search_code → call_chain`
 
 ## Success criteria
 
@@ -38,4 +38,4 @@ Report all branches, gaps (static/theme/css/extension changes), with formal evid
 
 ## More detail
 
-See [docs/uc-08.md](docs/uc-08.md)
+See [docs/uc-09.md](docs/uc-09.md)
