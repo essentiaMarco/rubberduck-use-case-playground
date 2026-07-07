@@ -100,7 +100,7 @@ pip install -r requirements.txt
 pytest tests labs -q
 ```
 
-UC-06 and UC-07 tests **fail on purpose** until you complete the training task.
+Expected result: **`3 passed, 2 xfailed`** (exit 0). The two `xfailed` tests are the UC-06 and UC-07 exercises — they are *expected* to fail until you implement the feature, at which point they flip to `XPASS`. The suite stays green either way.
 
 ---
 

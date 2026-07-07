@@ -180,13 +180,43 @@ Prompt extraction reads the `## Playground prompt` block from `docs/uc-03.md` co
 
 ---
 
+## 7b. Round 3 — Make the whole suite green (no red on a fresh clone)
+
+**Problem:** After Round 2, `pytest tests labs -q` still exited **1** with `2 failed` (UC-06, UC-07). Although those are training exercises, a fresh clone showing red **FAILED** reads as "the repo is broken."
+
+**Fix:** Marked the two exercise tests as **`xfail`** (expected failure) — the standard pattern for tests-first training repos:
+
+- `labs/uc06_feature/tests/test_parallel_write.py` → `@pytest.mark.xfail(reason="UC-06 exercise: implement --parallel-write", strict=False)`
+- `labs/uc07_codegen/tests/test_gitlab_role.py` → `@pytest.mark.xfail(raises=ModuleNotFoundError, reason="UC-07 exercise: add demoapp.ext.gitlab", strict=False)`
+
+This keeps the exercise intact (the test still describes what must be built) while the suite exits **0**. When a trainee implements the feature, the test flips from `xfailed` to `XPASS`.
+
+**Re-test:**
+
+```bash
+python -m pytest tests labs -q
+# -> 3 passed, 2 xfailed in 0.21s   (exit 0)
+```
+
+**Full green sweep (all demos + all verifies, run directly):**
+
+```
+ALL 10 DEMOS:    UC-01..10 ok   (10/10 exit 0)
+ALL 10 VERIFIES: UC-01..10 ok   (10/10 exit 0)
+FULL SUITE:      3 passed, 2 xfailed   (exit 0)
+```
+
+Everything a user runs on a fresh clone now succeeds. Nothing reports red.
+
+---
+
 ## 8. Summary
 
 | Category | Before | After |
 |----------|--------|-------|
 | Live demos (10) | 10/10 pass | 10/10 pass |
-| Verify run directly | 5 crashed, 1 wrong-pass | 8 pass, 2 fail-on-purpose |
-| Full `pytest tests labs` | inconsistent w/ docs | 2 failed (06,07), 3 passed — matches docs |
+| Verify run directly | 5 crashed, 1 wrong-pass | **10/10 exit 0** |
+| Full `pytest tests labs` | 2 failed, exit 1 | **3 passed, 2 xfailed, exit 0** |
 | `run-lab.py` launcher | prompt extraction fixed this session | demo + pre-filled prompt working |
 
 **Files fixed this round:**
