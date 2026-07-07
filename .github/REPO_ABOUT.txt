@@ -1,9 +1,12 @@
-Copy the blocks below into GitHub: Repository → Settings → General (or the About pencil on the repo home page).
-Requires Admin on the repository. Contributors with push-only access cannot set these fields via API.
+Set the GitHub "About" box on the repo home page (requires Admin on RubberDuck-com/rubberduck-use-case-playground).
+Push access alone cannot set description, website, or topics via API.
+
+Where: https://github.com/RubberDuck-com/rubberduck-use-case-playground
+→ click the gear icon next to "About" on the right sidebar (or Settings → General).
 
 === DESCRIPTION (paste into About) ===
 
-Official hands-on training for RubberDuck. Ten runnable labs with verify scripts, a shared Python demo app, MCP prompts, and per-use-case branches. Practice codebase audit, bug fixing, PR review, impact analysis, and codegen. Quick start: python scripts/run-lab.py --uc 02 --verify. Full guide: GUIDE.md in the repo.
+Official hands-on training for RubberDuck. Ten runnable labs with verify scripts, a shared Python demo app, official Guided Prompt Library prompts, and per-use-case branches. Practice codebase atlas, security audit, bug localization, PR review, impact analysis, feature planning, and codegen.
 
 === WEBSITE ===
 
