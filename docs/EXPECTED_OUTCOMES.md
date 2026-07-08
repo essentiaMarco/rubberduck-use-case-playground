@@ -158,5 +158,3 @@ python -m pytest tests labs -q
 ```
 
 **Expected:** `3 passed, 2 xfailed` (exit 0). UC-06 and UC-07 are training exercises.
-
-**Session log with prompts + RubberDuck outputs:** `docs/FULL_SESSION_LOG.md`

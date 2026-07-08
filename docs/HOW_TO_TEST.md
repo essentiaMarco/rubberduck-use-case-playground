@@ -76,7 +76,3 @@ Details: [EXPECTED_OUTCOMES.md](EXPECTED_OUTCOMES.md)
 - **Editing the compressed prompt text** — only change the input fields (repo, bug, question). The shorthand is intentional.
 - **Skipping Step 1** — you won’t know if RubberDuck found the real issue or hallucinated.
 - **Using `--verify` as the main flow** — it runs pytest smoke tests; `--run` (default) shows human-readable behavior.
-
-## Record a demo video
-
-See [RECORDING_SCRIPT.md](RECORDING_SCRIPT.md) for a shot-by-shot script.
