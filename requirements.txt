@@ -1,4 +1,5 @@
-fastapi>=0.110
-uvicorn[standard]>=0.27
-pytest>=8.0
-httpx>=0.27
+# Hub control plane (demo-projects/launcher.py)
+flask>=3.0
+
+# Pizzeria demo deps are installed into its own package/.venv via setup_and_run.py
+# See demo-projects/rubberduck_pizzeria-demoapp/package/requirements.txt

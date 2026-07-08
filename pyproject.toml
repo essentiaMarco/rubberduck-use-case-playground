@@ -1,14 +1,11 @@
 [project]
 name = "rubberduck-use-case-playground"
-version = "0.2.0"
-description = "Rubber Duck Playground — runnable labs for RubberDuck UC-01 through UC-10"
+version = "0.3.0"
+description = "Rubber Duck Playground — demo-projects hub + UC-01..10 labs for RubberDuck MCP"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-  "fastapi>=0.110",
-  "uvicorn[standard]>=0.27",
-  "httpx>=0.27",
-  "pytest>=8.0",
+  "flask>=3.0",
 ]
 
 [build-system]
@@ -16,7 +13,5 @@ requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["demoapp*"]
-
-[tool.pytest.ini_options]
-testpaths = ["tests", "labs"]
+where = ["demo-projects/rubberduck_pizzeria-demoapp/package"]
+include = ["rubber_duck_pizzeria*"]

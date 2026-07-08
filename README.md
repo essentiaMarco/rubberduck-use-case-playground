@@ -1,24 +1,24 @@
 # Rubber Duck Playground
 
-Hands-on training for [RubberDuck](https://rubberduck.com): **one codebase**, **ten workflows**, **real output** — not slides.
+Hands-on training for [RubberDuck](https://rubberduck.com): launch a real demo app, copy UC-01…UC-10 prompts, and run them in Cursor / Claude with RubberDuck MCP.
 
 ## 60-second start
 
 ```bash
 git clone https://github.com/RubberDuck-com/rubberduck-use-case-playground.git
-cd rubberduck-use-case-playground
-python scripts/run-lab.py --uc 02
+cd rubberduck-use-case-playground/demo-projects
 ```
 
-That single command:
+**Windows:** double-click `start-hub.bat`  
+**Linux / macOS:** `chmod +x start-hub.sh && ./start-hub.sh`
 
-1. Installs deps (first run only)
-2. **Runs real demo code** (e.g. shows SQL built from user input for UC-02)
-3. Prints the **pre-filled RubberDuck prompt** to paste in Cursor
+Open **http://127.0.0.1:5055/**
+
+1. **Welcome** — pick Rubber Duck Pizzeria  
+2. **Launch** — live console + health diagram (venv → deps → DB → API → UI)  
+3. **Generate prompts** — UC-01…UC-10, **Copy prompt**, and **What to expect**
 
 Connect RubberDuck MCP first — see [SETUP.md](SETUP.md).
-
-**Full walkthrough:** [docs/HOW_TO_TEST.md](docs/HOW_TO_TEST.md)
 
 ---
 
@@ -26,71 +26,30 @@ Connect RubberDuck MCP first — see [SETUP.md](SETUP.md).
 
 | Piece | What it is |
 |-------|------------|
-| `demoapp/` | Shared Python app (~800 lines) with deliberate bugs, security sinks, and extension tasks |
-| `labs/uc-01` … `uc-10` | One folder per exercise (verify scripts, focus paths) |
-| `docs/uc-01.md` … `uc-10.md` | Plain-English explanation + **playground-ready prompt** (repo pre-filled) |
-| `scripts/run-lab.py` | One command: demo + prompt |
-| `scripts/demo.py` | Low-level demo runner (used by `run-lab.py`) |
+| `demo-projects/` | Hub dashboard (`start-hub.bat` / `start-hub.sh`) |
+| `demo-projects/rubberduck_pizzeria-demoapp/` | Restaurant admin UI + kitchen API with intentional lab sinks |
+| Hub **Generate prompts** | Project-specific UC-01…UC-10 prompts + expected-outcome bullets |
 
-**Stay on `main`.** The `uc-XX-*` Git branches are legacy and missing current labs — do not use them.
+The older `demoapp/` / `labs/` / `run-lab.py` stack was removed so the repo has **one** clear path: the demo-projects hub.
 
 ---
 
 ## The ten use cases
 
-| # | Name | Terminal demo | RubberDuck finds |
-|---|------|---------------|------------------|
-| 01 | Understand Your Code | Builds HTML docs | Entry points, architecture |
-| 02 | Security Audit | SQL injection payload | Sinks in API + config |
-| 03 | Localize and Fix Bugs | ORM aggregation bug | Root cause in `query.py` |
-| 04 | Code Review | Compiler order-by logic | PR verdict + blast radius |
-| 05 | Change Impact | Config dict rename scope | All callers |
-| 06 | Plan a New Feature | Missing parallel-write flag | Tests-first plan |
-| 07 | Generate Code That Fits | GitHub role works, GitLab missing | Validated patch |
-| 08 | Check Code Logic | Staleness check output | Logic verdict |
-| 09 | Compare Versions | HTML vs Epub3 diff | Equivalence report |
-| 10 | Quick Check | `render_partial` behavior | Fast yes/no + evidence |
+| # | Name | What RubberDuck should surface on the pizzeria demo |
+|---|------|------------------------------------------------------|
+| 01 | Understand Your Code | Atlas: `main.py` → `create_app`, routes, `/api`, `init_db` |
+| 02 | Security Audit | SQLi, XSS, pickle/exec, IDOR, CMDi, SSTI, BAC, … |
+| 03 | Localize and Fix Bugs | Discount / `get_aggregation` mask bug |
+| 04 | Code Review | Hostile review of order_by → raw SQL near search |
+| 05 | Change Impact | Rename `config_values` blast radius |
+| 06 | Plan a New Feature | Plan parameterized `safe_search_customers` |
+| 07 | Generate Code That Fits | Implement safe search + tests |
+| 08 | Check Code Logic | Does `include_discount=True` apply? |
+| 09 | Compare Versions | Raw SQL search vs parameterized search |
+| 10 | Quick Check | What `get_aggregation` returns (short + evidence) |
 
-Expected RubberDuck output: [docs/EXPECTED_OUTCOMES.md](docs/EXPECTED_OUTCOMES.md)
-
----
-
-## Commands
-
-```bash
-# Default: live demo + prompt (recommended)
-python scripts/run-lab.py --uc 03
-
-# UC-02: start the API server
-python scripts/run-lab.py --uc 02 --server
-
-# Optional: pytest smoke test only
-python scripts/run-lab.py --uc 03 --verify
-
-# Prompt only (skip demo)
-python scripts/run-lab.py --uc 01 --no-run
-```
-
-Windows shortcut:
-
-```powershell
-.\scripts\setup.ps1 -Uc 02
-```
-
----
-
-## Demo projects hub
-
-Optional RubberDuck-styled launcher for extra demos (e.g. Rubber Duck Pizzeria):
-
-```bash
-cd demo-projects
-# Windows: double-click start-hub.bat
-# Linux/macOS:
-chmod +x start-hub.sh && ./start-hub.sh
-```
-
-Then open http://127.0.0.1:5055/ — pick a project, Launch (live console + health checks), or Generate prompts (UC-01…UC-10). See [demo-projects/README.md](demo-projects/README.md).
+Details live in the hub under **What to expect** for each UC.
 
 ---
 
@@ -98,24 +57,7 @@ Then open http://127.0.0.1:5055/ — pick a project, Launch (live console + heal
 
 [SETUP.md](SETUP.md) — connect Codebase Intelligence + Semantic Intelligence in Cursor.
 
-Index once per session:
-
-```
-Index my local project at: <full path to this repo>
-```
-
-Then paste the prompt from `docs/uc-XX.md` or from `run-lab.py` output.
-
----
-
-## Run all tests
-
-```bash
-pip install -r requirements.txt
-pytest tests labs -q
-```
-
-Expected result: **`3 passed, 2 xfailed`** (exit 0). The two `xfailed` tests are the UC-06 and UC-07 exercises — they are *expected* to fail until you implement the feature, at which point they flip to `XPASS`. The suite stays green either way.
+Index the pizzeria demo (or the whole clone) once per session, then paste the prompt copied from the hub.
 
 ---
 

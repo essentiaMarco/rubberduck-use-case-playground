@@ -36,28 +36,24 @@ Verify that both MCP servers are properly configured and reachable.
 Respond only with "healthy" or "unhealthy."
 ```
 
-## 4. Index this repo
+## 4. Start the hub and index
 
-**GitHub (recommended for team demos):**
+```bash
+cd demo-projects
+# Windows: start-hub.bat
+# Linux/macOS: ./start-hub.sh
+```
+
+Open http://127.0.0.1:5055/ → Launch the pizzeria demo → Generate prompts.
+
+**Index (pick one):**
 
 ```
 Index my GitHub repo: https://github.com/RubberDuck-com/rubberduck-use-case-playground
 ```
 
-**Local project:**
-
 ```
-Index my local project at: /path/to/rubberduck-use-case-playground
+Index my local project at: /path/to/rubberduck-use-case-playground/demo-projects/rubberduck_pizzeria-demoapp
 ```
 
-## 5. Pick a use-case branch
-
-```bash
-git checkout uc-07-generate-code   # example
-```
-
-Open `TUTORIAL.md` on that branch and paste the prompt into your AI assistant.
-
-## Optional: upstream repos from official docs
-
-Some tutorials reference larger public codebases (Sphinx, Django). See [docs/recommended-repos.md](docs/recommended-repos.md).
+Then paste the UC prompt copied from the hub into Cursor / Claude.

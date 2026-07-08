@@ -220,6 +220,33 @@
     .copy-row .btn.active {
       border-color: var(--yellow); background: var(--yellow-dim); color: var(--yellow);
     }
+    .expect-panel {
+      display: none;
+      margin: 0 0 16px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: rgba(250, 204, 21, 0.04);
+      border: 1px solid rgba(250, 204, 21, 0.2);
+    }
+    .expect-panel.show { display: block; }
+    .expect-panel h4 {
+      font-family: "JetBrains Mono", monospace;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--yellow);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+    .expect-panel ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+    .expect-panel li { margin-bottom: 6px; color: #d4d4d8; }
+    .expect-panel li::marker { color: var(--yellow); }
     pre.prompt-box {
       background: #09090b; border: 1px solid var(--border); border-radius: 8px;
       padding: 16px; font-family: "JetBrains Mono", monospace; font-size: 12.5px;
@@ -339,6 +366,7 @@
     let promptProjectId = null;
     let usecases = [];
     let activeUc = 0;
+    let expectOpen = false;
     let logCursor = 0;
     let pollTimer = null;
     let pollBusy = false;
@@ -608,6 +636,7 @@
       const data = await res.json();
       usecases = data.usecases || [];
       activeUc = 0;
+      expectOpen = false;
       renderUc();
     }
 
@@ -627,13 +656,19 @@
         .join("");
       nav.querySelectorAll("button").forEach((b) => {
         b.addEventListener("click", () => {
-          activeUc = Number(b.dataset.i);
+          const next = Number(b.dataset.i);
+          if (next !== activeUc) expectOpen = false;
+          activeUc = next;
           renderUc();
         });
       });
 
       const u = usecases[activeUc];
       const prompt = adaptPrompt(u.prompt, copyTarget);
+      const expectItems = Array.isArray(u.expect) ? u.expect : [];
+      const expectList = expectItems
+        .map((line) => `<li>${escapeHtml(line)}</li>`)
+        .join("");
       detail.innerHTML =
         `<h2>${u.id} — ${u.title}</h2>` +
         `<p class="summary">${u.summary || ""}</p>` +
@@ -641,7 +676,14 @@
         `<button type="button" class="btn btn-ghost btn-sm ${copyTarget === "cursor" ? "active" : ""}" data-t="cursor">Cursor</button>` +
         `<button type="button" class="btn btn-ghost btn-sm ${copyTarget === "claude" ? "active" : ""}" data-t="claude">Claude Code</button>` +
         `<button type="button" class="btn btn-primary btn-sm" id="copy-prompt">Copy prompt</button>` +
+        `<button type="button" class="btn btn-ghost btn-sm ${expectOpen ? "active" : ""}" id="toggle-expect">What to expect</button>` +
         `<button type="button" class="btn btn-ghost btn-sm" id="copy-all">Copy all 10</button>` +
+        `</div>` +
+        `<div class="expect-panel${expectOpen ? " show" : ""}" id="expect-panel">` +
+        `<h4>Exactly what to expect — ${u.id}</h4>` +
+        (expectList
+          ? `<ul>${expectList}</ul>`
+          : `<p style="margin:0;color:var(--muted);font-size:13px;">No expect bullets defined for this use case yet.</p>`) +
         `</div>` +
         `<p style="font-size:13px;color:var(--muted);margin-bottom:10px;">Copied text is the use-case prompt only (no paste instructions). Target: <strong style="color:var(--text)">${copyTarget === "cursor" ? "Cursor" : "Claude Code"}</strong>.</p>` +
         `<pre class="prompt-box" id="prompt-text"></pre>`;
@@ -657,6 +699,10 @@
         await navigator.clipboard.writeText(prompt);
         toast("Copied for " + (copyTarget === "cursor" ? "Cursor" : "Claude"));
       });
+      document.getElementById("toggle-expect").addEventListener("click", () => {
+        expectOpen = !expectOpen;
+        renderUc();
+      });
       document.getElementById("copy-all").addEventListener("click", async () => {
         const all = usecases
           .map((x) => `===== ${x.id}: ${x.title} =====\n\n${adaptPrompt(x.prompt, copyTarget)}`)
@@ -664,6 +710,14 @@
         await navigator.clipboard.writeText(all);
         toast("All 10 prompts copied");
       });
+    }
+
+    function escapeHtml(s) {
+      return String(s)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
     }
 
     function adaptPrompt(text, target) {
