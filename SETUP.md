@@ -36,17 +36,9 @@ Verify that both MCP servers are properly configured and reachable.
 Respond only with "healthy" or "unhealthy."
 ```
 
-## 4. Start the hub and index
+## 4. Index (after hub Launch)
 
-```bash
-cd demo-projects
-# Windows: start-hub.bat
-# Linux/macOS: ./start-hub.sh
-```
-
-Open http://127.0.0.1:5055/ → Launch the pizzeria demo → Generate prompts.
-
-**Index (pick one):**
+Follow [GUIDE.md](GUIDE.md) steps 1–4 first (clone → open hub → welcome → launch), then index:
 
 ```
 Index my GitHub repo: https://github.com/RubberDuck-com/rubberduck-use-case-playground
@@ -56,4 +48,4 @@ Index my GitHub repo: https://github.com/RubberDuck-com/rubberduck-use-case-play
 Index my local project at: /path/to/rubberduck-use-case-playground/demo-projects/rubberduck_pizzeria-demoapp
 ```
 
-Then paste the UC prompt copied from the hub into Cursor / Claude.
+Then use **Generate prompts** in the hub and paste into Cursor / Claude.

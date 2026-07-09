@@ -4,21 +4,23 @@ Hands-on training for [RubberDuck](https://rubberduck.com): launch a real demo a
 
 ## 60-second start
 
-```bash
-git clone https://github.com/RubberDuck-com/rubberduck-use-case-playground.git
-cd rubberduck-use-case-playground/demo-projects
-```
+1. **Git clone**
+   ```bash
+   git clone https://github.com/RubberDuck-com/rubberduck-use-case-playground.git
+   cd rubberduck-use-case-playground/demo-projects
+   ```
 
-**Windows:** double-click `start-hub.bat`  
-**Linux / macOS:** `chmod +x start-hub.sh && ./start-hub.sh`
+2. **Open the hub** — `start-hub.bat` (Windows) or `./start-hub.sh` (Linux/macOS) → http://127.0.0.1:5055/
 
-Open **http://127.0.0.1:5055/**
+3. **Welcome** — pick Rubber Duck Pizzeria
 
-1. **Welcome** — pick Rubber Duck Pizzeria  
-2. **Launch** — live console + health diagram (venv → deps → DB → API → UI)  
-3. **Generate prompts** — UC-01…UC-10, **Copy prompt**, and **What to expect**
+4. **Launch** — live console + health diagram (venv → deps → DB → API → UI)
 
-Connect RubberDuck MCP first — see [SETUP.md](SETUP.md).
+5. **Connect RubberDuck MCP** — **Connect MCP** tab in the hub
+
+6. **Generate prompts** — UC-01…UC-10, **What to expect**, **Copy prompt**
+
+Full walkthrough: [GUIDE.md](GUIDE.md)
 
 ---
 
