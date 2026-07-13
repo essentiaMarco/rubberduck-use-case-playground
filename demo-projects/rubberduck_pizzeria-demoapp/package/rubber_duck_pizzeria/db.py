@@ -212,11 +212,15 @@ def init_db(force: bool = False) -> None:
 
 
 def search_customers_raw(q: str):
-    """VULN: SQL injection via string format. FLAG{RD_SQLI_SEARCH}"""
+    """Parameterized customer search (F-01 SQL injection fixed)."""
     conn = get_connection()
-    sql = f"SELECT * FROM customers WHERE name LIKE '%{q}%' OR location LIKE '%{q}%' OR customer_code LIKE '%{q}%' OR notes LIKE '%{q}%'"
+    like = f"%{q}%"
+    sql = (
+        "SELECT * FROM customers "
+        "WHERE name LIKE ? OR location LIKE ? OR customer_code LIKE ? OR notes LIKE ?"
+    )
     try:
-        rows = conn.execute(sql).fetchall()
+        rows = conn.execute(sql, (like, like, like, like)).fetchall()
     finally:
         conn.close()
     return [dict(r) for r in rows]
